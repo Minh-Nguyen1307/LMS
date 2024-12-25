@@ -1,11 +1,11 @@
 import express from 'express'
-import { checkEmailUser, signUpAdmin, signUpUser } from '../Controllers/signUpControllers.js';
+import { signUpAdmin, signUpUser } from '../Controllers/signUpControllers.js';
+import { checkEmailMiddlewares } from '../Middlewares/checkEmailMiddlewares.js';
 
 
 const userRouters = express.Router();
-userRouters.post('/checkEmailUser', checkEmailUser);
-userRouters.post('/signUpUser', signUpUser);
-userRouters.post('/signUpAdmin', signUpAdmin);
+userRouters.post('/signUpUser',checkEmailMiddlewares,signUpUser);
+userRouters.post('/signUpAdmin',checkEmailMiddlewares, signUpAdmin);
 
 
 
