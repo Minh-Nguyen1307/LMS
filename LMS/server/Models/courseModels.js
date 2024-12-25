@@ -12,14 +12,7 @@ const courseSchema = new mongoose.Schema({
       introduction: { type: String, required: true },
       enrollmentCount: { type: Number, required: true, default: 0 },
       certification: { type: Boolean, required: true, default: false },
-  lessons: [
-    {
-      title: { type: String, required: true, trim: true },
-      description: { type: String, required: true },
-      videoId: { type: String, required: true },
-      duration: { type: Number, required: true },
-    },
-  ],
+  
   reviewsReceived: [
     {
       reviewerId: { type: mongoose.Schema.Types.ObjectId, ref: "user", required: true },
