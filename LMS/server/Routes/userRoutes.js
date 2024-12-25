@@ -1,6 +1,6 @@
 import express from 'express'
-import { signUpAdmin, signUpUser } from '../Controllers/signUpControllers.js';
-import { checkEmailMiddlewares } from '../Middlewares/checkEmailMiddlewares.js';
+import { checkEmailMiddlewares, signUpAdmin, signUpUser } from '../Controllers/signUpControllers.js';
+
 
 
 const userRouters = express.Router();

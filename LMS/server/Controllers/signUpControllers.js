@@ -1,6 +1,27 @@
 import bcrypt from "bcryptjs";
 import UserModels from "../Models/userModels.js";
 
+
+export const checkEmailMiddlewares = async (req, res, next) => {
+    try {
+      const { email } = req.body;
+  
+      if (!email) {
+        return res.status(400).json({ message: "Email is required." });
+      }
+  
+      const existedEmail = await UserModels.findOne({ email }); 
+  
+      if (existedEmail) {
+        return res.status(400).json({ message: "Email already exists." });
+      }
+    
+      
+      next(); 
+    } catch (error) {
+      next(error);
+    }
+  };
   export const signUpUser = async (req, res, next) => {
     try {
       const { userName, email, password } = req.body;
@@ -19,7 +40,8 @@ import UserModels from "../Models/userModels.js";
       });
   
       res.status(201).json({
-        message: "Registration successful!",
+        success: true,
+        message: "User account created successfully.",
         userId: newUser._id,
         user:{
             userName: newUser.userName,
@@ -28,7 +50,7 @@ import UserModels from "../Models/userModels.js";
         },
         createdAt: newUser.createdAt, 
         updatedAt: newUser.updatedAt, 
-        success: true,
+        
        
       });
     } catch (error) {
