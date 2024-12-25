@@ -86,7 +86,7 @@ export const checkEmailUser = async (req, res, next) => {
         success: true,
         message: 'Admin account created successfully.',
         userId: newAdmin._id,
-        admin:{
+        user:{
           userName: newAdmin.userName,
           email: newAdmin.email,
           role: newAdmin.role,
