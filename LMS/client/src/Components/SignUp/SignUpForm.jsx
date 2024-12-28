@@ -80,7 +80,7 @@ export default function SignUpForm() {
       // Check if the email already exists (from the backend)
       if (err.response?.data?.message === "Email already exists.") {
         setError("Email already exists. Please choose a different email.");
-        alert("This email is already registered. Please use a different one.");
+        
       } else {
         // Handle other errors
         setError(

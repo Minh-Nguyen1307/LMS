@@ -25,7 +25,7 @@ export const signInUser = async (email, password, navigate, setErrorLogIn) => {
       localStorage.getItem("userId", JSON.stringify(user));
       const userId = user.userId;
       
-      user.role === "admin" ? navigate("/admin-dashboard") : window.location.href = `/${userId}`;
+      user.role === "admin" ? navigate("/admin-dashboard/home") : window.location.href = `/${userId}`;
     } else {
       setErrorLogIn("Invalid credentials. Please try again.");
     }
