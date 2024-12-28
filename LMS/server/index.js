@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 import { errorMiddlewares } from "./Middlewares/ErrorMiddlewares.js";
 import userRouters from "./Routes/userRoutes.js";
 import adminRouters from "./Routes/adminRoutes.js";
+import paypalRouters from "./Routes/paypalRoutes.js";
 
 
 dotenv.config();
@@ -26,10 +27,10 @@ app.use(errorMiddlewares);
 
 app.use('/api/admins', adminRouters)
 app.use('/api/users', userRouters)
+app.use("/api/paypal", paypalRouters);
 
 
 
-app.use(express.urlencoded({ extended: true }));
 const port = process.env.PORT || 8080;
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);

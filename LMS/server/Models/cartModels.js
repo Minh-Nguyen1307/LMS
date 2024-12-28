@@ -36,7 +36,7 @@ export const getAllCoursesInCart = async (req, res, next) => {
       return res.status(404).json({ message: "Cart not found for the user" });
     }
 
-    // Respond with the cart details
+   
     res.status(200).json({
       message: "Cart retrieved successfully",
       cartItems: cart.cartItems,
