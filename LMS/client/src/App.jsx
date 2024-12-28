@@ -18,6 +18,8 @@ import Upload from "./Dashboard/Courses/Upload";
 import Home from "./Dashboard/Home/Home";
 import Admins from "./Dashboard/Admins/Admins";
 import Add from "./Dashboard/Admins/Add";
+import CourseDetailPage from "./Pages/CourseDetailPage";
+import CartPage from "./Pages/CartPage";
 
 function App() {
   const location = useLocation();
@@ -44,7 +46,14 @@ function App() {
         ) : (
           <Route path="/courses" element={<CoursesPage />} />
         )}
+{isLoggedIn ? (
+          <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
+          
+        ) : (
+          <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+        )}
 
+{isLoggedIn && <Route path="/:userId/cart" element={<CartPage />} />}
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route

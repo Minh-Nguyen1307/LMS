@@ -84,6 +84,7 @@ export const getCourses = async (req, res, next) => {
 
     let filter = {};
 
+    // Apply filters based on query parameters
     if (category) filter.category = category;
     if (level) filter.level = level;
     if (rating) filter.rating = { $gte: Number(rating) };
@@ -92,6 +93,7 @@ export const getCourses = async (req, res, next) => {
 
     let query = CourseModels.find(filter);
 
+    // Apply sorting based on query parameter
     if (sortBy) {
       const sortOptions = {
         price: { price: 1 },
@@ -102,24 +104,33 @@ export const getCourses = async (req, res, next) => {
         numRatings: { numRatings: -1 },
         discount: { discount: -1 },
         new: { updatedAt: -1 },
+        enrollmentCount: { enrollmentCount: -1 }, // Sort by enrollment count descending
+        "-enrollmentCount": { enrollmentCount: 1 }, // Sort by enrollment count ascending
       };
       query = query.sort(sortOptions[sortBy] || {});
     }
 
+    // Calculate skip value based on current page and limit
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(Number(limit));
 
+    // Fetch courses based on filters and pagination
     const courses = await query.exec();
 
+    // Calculate the total number of courses for pagination
     const totalCourses = await CourseModels.countDocuments(filter);
 
+    // Calculate the total number of pages based on total courses and limit
+    const totalPages = Math.ceil(totalCourses / limit);
+
+    // Return courses with pagination details
     res.status(200).json({
       pagination: {
         currentPage: Number(page),
-        totalPages: Math.ceil(totalCourses / limit),
+        totalPages,
+        totalCourses,
         success: true,
         message: "Get all courses successfully.",
-        totalCourses,
       },
       courses: courses.length,
       courses,
@@ -128,6 +139,7 @@ export const getCourses = async (req, res, next) => {
     next(error);
   }
 };
+
 
 export const getTopCoursesByEnrollment = async (req, res, next) => {
   try {

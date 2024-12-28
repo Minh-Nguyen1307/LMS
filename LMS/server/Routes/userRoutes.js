@@ -15,7 +15,7 @@ userRouters.get('/getCourses', getCourses);
 userRouters.get('/getTopCoursesByEnrollment',getTopCoursesByEnrollment);
 userRouters.get('/getCourseById/:courseId',getCourseById);
 userRouters.post('/addToCart/:userId',addToCart);
-userRouters.delete('/addToCart/:userId',removeFromCart)
+userRouters.delete('/removeFromCart/:userId',removeFromCart)
 userRouters.get('/getAllCoursesInCart/:userId',getAllCoursesInCart)
 userRouters.post('/createOrder/:userId',createOrder)
 userRouters.post('/capturePayment/:userId',capturePayment)

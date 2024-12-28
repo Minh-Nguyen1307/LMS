@@ -22,17 +22,18 @@ export const addToCart = async (req, res, next) => {
         totalPrice: 0,
       });
     }
+
     const user = await UserModels.findById(userId);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
-    if (!Array.isArray(user.cart)) {
-      user.cart = [];
-    }
+
     const course = await CourseModels.findById(courseId);
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
+
+    // Check if course is already in the cart
     const existingCartItem = cart.cartItems.find(
       (cartItem) => cartItem.courseId.toString() === course._id.toString()
     );
@@ -43,19 +44,36 @@ export const addToCart = async (req, res, next) => {
         .json({ message: "The course is already in the cart" });
     }
 
+    // Calculate prices
     const priceBeforeDiscount = course.price || 0;
     const priceDiscount = course.price * (course.discount || 0) / 100;
     const priceAfterDiscount = priceBeforeDiscount - priceDiscount;
 
+    // Add the course to the cart with all the necessary details
     cart.cartItems.push({
       courseId: course._id,
-      quantity: 1,
+      nameCourse: course.nameCourse,
+      category: course.category,
+      image: course.image,
+      author: course.author,
+      price: priceBeforeDiscount,
+      discount: course.discount,
+      rating: course.rating,
+      numRatings: course.numRatings,
+      level: course.level,
+      introduction: course.introduction,
+      enrollmentCount: course.enrollmentCount,
+      certification: course.certification,
+      createdAt: course.createdAt,
+      updatedAt: course.updatedAt,
       PriceBeforeDiscount: priceBeforeDiscount,
       PriceDiscount: priceDiscount,
       PriceAfterDiscount: priceAfterDiscount,
+      quantity: 1,
       addedAt: new Date(),
     });
 
+    // Recalculate total price
     cart.totalPrice = cart.cartItems.reduce(
       (total, item) => total + item.PriceAfterDiscount * item.quantity,
       0
@@ -71,6 +89,8 @@ export const addToCart = async (req, res, next) => {
     next(error);
   }
 };
+
+
 
 
 

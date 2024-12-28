@@ -46,8 +46,7 @@ export default function Add() {
       <h1 className="text-2xl font-bold mb-4">Admin Management</h1>
       <div className="max-w-lg mx-auto p-6">
         <h1 className="text-2xl font-bold text-center mb-4">Admin</h1>
-        {error && <div className="text-red-600 mb-4">{error}</div>}
-        {success && <div className="text-green-600 mb-4">{success}</div>}
+        
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="block mb-2" htmlFor="userName">
@@ -92,7 +91,7 @@ export default function Add() {
             <button
               type="button"
               onClick={togglePasswordVisibility}
-              className="absolute right-[] top-1/2 transform -translate-y-1/2 text-blue-500"
+              className="absolute right-[20px] top-[50px] transform -translate-y-1/2 text-blue-500"
             >
               <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} />
             </button>
@@ -111,7 +110,8 @@ export default function Add() {
               className="w-full p-2 border rounded"
             />
           </div>
-
+          {error && <div className="text-red-600 mb-4">{error}</div>}
+          {success && <div className="text-green-600 mb-4">{success}</div>}
           <div className="mb-4">
             <button
               type="submit"
@@ -119,6 +119,7 @@ export default function Add() {
               disabled={loading}
             >
               {loading ? "Signing Up..." : "Sign Up"}
+              
             </button>
           </div>
         </form>
