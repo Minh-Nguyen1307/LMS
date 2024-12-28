@@ -6,7 +6,7 @@ const LessonSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "course",
       required: true,
-    }, // Reference to Course
+    }, 
     lessons: [
       {
         title: { type: String, required: true, trim: true },
