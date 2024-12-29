@@ -9,8 +9,11 @@ const CourseCard = ({course}) => {
   const user = JSON.parse(localStorage.getItem('user')); // Assuming user is saved in localStorage
   const userId = user?.userId;
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [loading, setLoading] = useState(false); // Loading state
+  const [loading, setLoading] = useState(false);
 
+  const openImageInNewTab = () => {
+    window.open(course.image, 'https://res.cloudinary.com/dnjetcaqg/image/upload/v1735404569/course_images/owb07u57ejnmhuqndypc.png');
+  };
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
@@ -75,7 +78,8 @@ const CourseCard = ({course}) => {
       <img
         src={course.image}
         alt={course.nameCourse}
-        className="w-full h-36 object-cover"
+        className="w-full h-36 object-cover cursor-pointer"
+        onClick={openImageInNewTab}
       />
 
       {/* Course Title */}

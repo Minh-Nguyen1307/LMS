@@ -2,8 +2,7 @@ import express from 'express'
 import { checkEmailMiddlewares, signUpUser } from '../Controllers/signUpControllers.js';
 import { signInUser } from '../Controllers/signInControllers.js';
 import { getCourseById, getCourses, getTopCoursesByEnrollment } from '../Controllers/courseControllers.js';
-import { addToCart, removeFromCart } from '../Controllers/cartControllers.js';
-import { getAllCoursesInCart } from '../Models/cartModels.js';
+import { addToCart, getAllCoursesInCart, removeFromCart } from '../Controllers/cartControllers.js';
 import { capturePayment, createOrder } from '../Controllers/checkoutControllers.js';
 
 

@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import CoursesPage from "./Pages/CoursesPage";
 import Clients from "./Dashboard/Clients/Clients";
-import Courses from "./Dashboard/Courses/Courses";
+
 import Communications from "./Dashboard/Communications/Communications";
 import Revenues from "./Dashboard/Revenues/Revenues";
 import Settings from "./Dashboard/Settings/Settings";
@@ -20,6 +20,7 @@ import Admins from "./Dashboard/Admins/Admins";
 import Add from "./Dashboard/Admins/Add";
 import CourseDetailPage from "./Pages/CourseDetailPage";
 import CartPage from "./Pages/CartPage";
+import CoursesTable from "./Dashboard/Courses/Courses";
 
 function App() {
   const location = useLocation();
@@ -46,14 +47,20 @@ function App() {
         ) : (
           <Route path="/courses" element={<CoursesPage />} />
         )}
-{isLoggedIn ? (
-          <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
-          
-        ) : (
-          <Route path="/courses/:courseId" element={<CourseDetailPage />} />
-        )}
 
-{isLoggedIn && <Route path="/:userId/cart" element={<CartPage />} />}
+{isLoggedIn && (
+  <>
+    <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
+    <Route path="/:userId/cart" element={<CartPage />} />
+    
+  </>
+)}
+
+
+{!isLoggedIn && (
+  <Route path="/courses/:courseId" element={<CourseDetailPage />} />
+)}
+
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
         <Route
@@ -69,7 +76,7 @@ function App() {
           <Route path="clients" element={<Clients />} />
           <Route path="admins" element={<Admins />} />
           <Route path="admins/add" element={<Add />} />
-          <Route path="courses" element={<Courses />} />
+          <Route path="courses" element={<CoursesTable />} />
           <Route path="courses/upload" element={<Upload />} />
           <Route path="communication" element={<Communications />} />
           <Route path="revenue" element={<Revenues />} />

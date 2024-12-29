@@ -8,7 +8,7 @@ const CartPage = () => {
   const [cartCourses, setCartCourses] = useState([]);
   const [error, setError] = useState(null);
   const [discountedPrice, setDiscountedPrice] = useState(0);
-  const [totalDiscount, setTotalDiscount] = useState(0); // Track total discount
+  const [totalDiscount, setTotalDiscount] = useState(0); 
   const { userId } = useParams();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -45,19 +45,22 @@ const CartPage = () => {
   };
 
   // Remove Course from Cart
-  const removeFromCart = async (courseId) => {
+  const removeFromCart1 = async (courseId) => {
     try {
       const response = await axios.delete(
         `${import.meta.env.VITE_API_BASE_URL}/users/removeFromCart/${userId}`,
-        { data: { courseId } }
+        { data: { courseId: courseId } } // Send only the _id
       );
       setCartCourses(response.data.cartItems);
       setDiscountedPrice(response.data.totalPrice);
+      window.location.reload();
     } catch (error) {
+      console.error("Error response:", error.response?.data || error.message);
       setError("Error removing course from cart. Please try again.");
-      console.error("Error removing course:", error.message);
     }
   };
+  
+  
 
   // Effect Hook to Fetch Cart Data
   useEffect(() => {
@@ -109,9 +112,9 @@ const CartPage = () => {
                       className="w-32 h-24 object-cover rounded-lg"
                     />
                     <div>
-                      <p className="text-xl font-semibold text-gray-900">
+                    <Link to={`/${userId}/courses/${course.courseId}`}><p className="text-xl font-semibold text-gray-900">
                         {course.nameCourse}
-                      </p>
+                      </p></Link>
                       <p className="text-sm text-gray-600">
                         By: <span className="font-medium">{course.author}</span>
                       </p>
@@ -123,18 +126,18 @@ const CartPage = () => {
           
                   <div className="text-right w-2/3">
                     <button
-                      className="text-red-600 hover:text-red-800 ml-2 mb-2"
-                      onClick={() => removeFromCart(course.courseId)}
+                      className="text-red-600 hover:text-red-800 ml-2 mb-2 "
+                      onClick={() => removeFromCart1(course.courseId)}
                     >
                       <FontAwesomeIcon icon={faTimes} className="h-5" />
                     </button>
-                    <p className="text-2xl font-bold text-gray-800">
+                    <p className="text-xl font-bold text-gray-800 line-through">
                       ${course.PriceBeforeDiscount.toFixed(2)}
                     </p>
-                    <p className="text-xl font-bold text-green-800">
+                    <p className="text-lg font-bold text-green-800">
                       {course.discount}%
                     </p>
-                    <p className="text-xl font-bold text-green-800">
+                    <p className="text-2xl font-bold text-red-800">
                       ${course.PriceAfterDiscount}
                     </p>
                   </div>

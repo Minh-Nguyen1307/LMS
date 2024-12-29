@@ -41,24 +41,4 @@ export default CartModels;
 
 
 
-export const getAllCoursesInCart = async (req, res, next) => {
-  const { userId } = req.params;
 
-  try {
-
-    const cart = await CartModels.findOne({ userId }).populate("cartItems.courseId");
-
-    if (!cart) {
-      return res.status(404).json({ message: "Cart not found for the user" });
-    }
-
-   
-    res.status(200).json({
-      message: "Cart retrieved successfully",
-      cartItems: cart.cartItems,
-      totalPrice: cart.totalPrice,
-    });
-  } catch (error) {
-    next(error);
-  }
-};
