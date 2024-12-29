@@ -11,12 +11,10 @@ function Upload() {
     image: null,
     author: "",
     level: "Beginner", // Default value set to "Beginner"
-    prerequisites: "None", // Default value set to "None"
     introduction: "",
     discount: "",
     enrollmentCount: 0, // Default value set to 0
     certification: false, // Default value set to false
-    
     timestamp: new Date(),
   });
 
@@ -35,54 +33,13 @@ function Upload() {
     }));
   };
 
-  const handleChapterChange = (index, e) => {
-    const { name, value } = e.target;
-    const updatedChapters = [...courseData.chapters];
-    updatedChapters[index] = {
-      ...updatedChapters[index],
-      [name]: value,
-    };
-    setCourseData((prevData) => ({
-      ...prevData,
-      chapters: updatedChapters,
-    }));
-  };
-
-  const handleAddChapter = () => {
-    setCourseData((prevData) => ({
-      ...prevData,
-      chapters: [
-        ...prevData.chapters,
-        {
-          title: "",
-          content: "",
-          duration: "",
-          objectives: "",
-          resources: "",
-          video: "",
-          description: ""
-        },
-      ],
-    }));
-  };
-
-  const handleRemoveChapter = (index) => {
-    const updatedChapters = courseData.chapters.filter(
-      (_, idx) => idx !== index
-    );
-    setCourseData((prevData) => ({
-      ...prevData,
-      chapters: updatedChapters,
-    }));
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-  
+
     // Append all course data to formData, including the image file
     for (const key in courseData) {
-      if (key === 'image') {
+      if (key === "image") {
         formData.append(key, courseData[key]);
       } else if (Array.isArray(courseData[key])) {
         // If there are nested objects like chapters, handle them accordingly
@@ -91,10 +48,12 @@ function Upload() {
         formData.append(key, courseData[key]);
       }
     }
-  
+
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/admins/admin-dashboard/createCourse`,
+        `${
+          import.meta.env.VITE_API_BASE_URL
+        }/admins/createCourse`,
         formData,
         {
           headers: {
@@ -103,7 +62,7 @@ function Upload() {
           },
         }
       );
-  
+
       if (response.status === 200) {
         alert("Course uploaded successfully");
         window.location.reload();
@@ -113,7 +72,6 @@ function Upload() {
       alert("Failed to upload course");
     }
   };
-  
 
   return (
     <form
@@ -259,24 +217,6 @@ function Upload() {
           </select>
         </div>
 
-        {/* Prerequisites */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Prerequisites
-          </label>
-          <input
-            type="text"
-            name="prerequisites"
-            value={courseData.prerequisites}
-            onChange={handleInputChange}
-            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter prerequisites"
-          />
-        </div>
-
-        {/* Tags */}
-        
-
         {/* Enrollment Count */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -291,13 +231,9 @@ function Upload() {
             placeholder="Enter enrollment count"
           />
         </div>
-
-        {/* Certification */}
-
-       
       </div>
       <div className="flex justify-between my-2">
-      <div className="w-5/6 mr-10">
+        <div className="w-5/6 mr-10">
           <label className="block text-sm font-medium text-gray-700 mb-1 ">
             Image
           </label>
@@ -327,147 +263,19 @@ function Upload() {
             className="w-4 h-4"
           />
         </div>
-        </div>
+      </div>
       <div>
-  <label className="block text-xl font-medium text-gray-700 my-3">
-    Introduction
-  </label>
-  <textarea
-    name="introduction"
-    value={courseData.introduction}
-    onChange={handleInputChange}
-    className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-    placeholder="Enter introduction"
-    rows="5" // Set the number of rows for height
-  />
-</div>
-
-      {/* Chapters */}
-      <div className="col-span-3 my-3">
-        <label className="block text-xl font-medium text-gray-700 mb-1">
-          Chapters
+        <label className="block text-xl font-medium text-gray-700 my-3">
+          Introduction
         </label>
-        {courseData.chapters.map((chapter, index) => (
-          <div key={index} className="bg-gray-50 p-4 rounded-md shadow-sm mb-4">
-            <div className="flex justify-between">
-              <h3 className="text-xl font-semibold mb-2">
-                Chapter {index + 1}
-              </h3>
-              <button
-                type="button"
-                onClick={() => handleRemoveChapter(index)}
-                className="text-sm mb-2 btn-close"
-              ></button>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Title
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  value={chapter.title}
-                  onChange={(e) => handleChapterChange(index, e)}
-                  className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                  placeholder="Chapter Title"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 my-1">
-                Content
-              </label>
-              <textarea
-                name="content"
-                value={chapter.content}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter content"
-                rows="3"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Objectives
-              </label>
-              <textarea
-                name="objectives"
-                value={chapter.objectives}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter learning objectives"
-                rows="3"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Resources
-              </label>
-              <textarea
-                name="resources"
-                value={chapter.resources}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter resources"
-                rows="3"
-              ></textarea>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
-                Duration (in hours)
-              </label>
-              <input
-                type="number"
-                name="duration"
-                value={chapter.duration}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter chapter duration"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 my-1">
-                Video URL
-              </label>
-              <input
-                type="text"
-                name="video"
-                value={chapter.video}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter video URL"
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 my-1">
-                Description
-              </label>
-              <textarea
-                name="description"
-                value={chapter.description}
-                onChange={(e) => handleChapterChange(index, e)}
-                className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter chapter description"
-                rows="3"
-              ></textarea>
-            </div>
-          </div>
-        ))}
-        <button
-          type="button"
-          onClick={handleAddChapter}
-          className="mt-2 text-lg text-blue-600 hover:underline"
-        >
-          Add New Chapter
-        </button>
+        <textarea
+          name="introduction"
+          value={courseData.introduction}
+          onChange={handleInputChange}
+          className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          placeholder="Enter introduction"
+          rows="5" // Set the number of rows for height
+        />
       </div>
 
       {/* Submit Button */}

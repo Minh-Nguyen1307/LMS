@@ -14,13 +14,14 @@ import Revenues from "./Dashboard/Revenues/Revenues";
 import Settings from "./Dashboard/Settings/Settings";
 import DashboardPage from "./Pages/DashboardPage";
 import PrivateRoute from "./Components/SignIn/PrivateRoute";
-import Upload from "./Dashboard/Courses/Upload";
+import Upload from "./Dashboard/Courses/Upload/Upload";
 import Home from "./Dashboard/Home/Home";
 import Admins from "./Dashboard/Admins/Admins";
 import Add from "./Dashboard/Admins/Add";
 import CourseDetailPage from "./Pages/CourseDetailPage";
 import CartPage from "./Pages/CartPage";
 import CoursesTable from "./Dashboard/Courses/Courses";
+import Update from "./Dashboard/Courses/Update/Update";
 
 function App() {
   const location = useLocation();
@@ -78,6 +79,7 @@ function App() {
           <Route path="admins/add" element={<Add />} />
           <Route path="courses" element={<CoursesTable />} />
           <Route path="courses/upload" element={<Upload />} />
+          <Route path="courses/update/:courseId" element={<Update />} />
           <Route path="communication" element={<Communications />} />
           <Route path="revenue" element={<Revenues />} />
           <Route path="settings" element={<Settings />} />

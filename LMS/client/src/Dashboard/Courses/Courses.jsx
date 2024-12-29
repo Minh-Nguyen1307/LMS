@@ -3,7 +3,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 
 const Courses = () => {
-  const [courses, setCourses] = useState([]);
+  
+  const [courses, setCourses] = useState();
+
   const [filters, setFilters] = useState({
     category: "",
     level: "",
@@ -101,9 +103,6 @@ const Courses = () => {
         <div className="flex justify-end w-9/12">
           <Link to="upload">
             <button className="btn btn-success">Add Course</button>
-          </Link>
-          <Link to="edit" className="ml-10">
-            <button className="btn btn-success">Update Course</button>
           </Link>
         </div>
       </div>
@@ -216,18 +215,10 @@ const Courses = () => {
             <th className="border border-gray-300 px-4 py-2">Price $</th>
             <th className="border border-gray-300 px-4 py-2">Discount %</th>
             <th className="border border-gray-300 px-4 py-2">Rating</th>
-            <th className="border border-gray-300 px-4 py-2">
-              Enrollment Count
-            </th>
-            <th className="border border-gray-300 px-4 py-2">Lessons</th>
-            <th className="border border-gray-300 px-4 py-2">
-              Created At
-            </th>{" "}
-            {/* Added column */}
-            <th className="border border-gray-300 px-4 py-2">
-              Updated At
-            </th>{" "}
-            {/* Added column */}
+            <th className="border border-gray-300 px-4 py-2">Enrollment</th>
+            <th className="border border-gray-300 px-4 py-2">Update</th>
+            <th className="border border-gray-300 px-4 py-2">Created At</th>
+            <th className="border border-gray-300 px-4 py-2">Updated At</th>
           </tr>
         </thead>
         <tbody>
@@ -256,22 +247,23 @@ const Courses = () => {
                   {course.enrollmentCount}
                 </td>
                 <td className="border border-gray-300 px-2 py-1">
-                  <button
-                    onClick={() =>
-                      alert(`More details for ${course.nameCourse}`)
-                    }
-                    className="bg-blue-500 text-white px-2 py-1 rounded"
-                  >
-                    Lessons
+                  <button className="bg-gray-500 text-white px-2 py-1 rounded">
+                    <Link
+                      to={`update/${course._id}`}
+                      
+                      className="block w-full text-center"
+                    >
+                      Update Course
+                    </Link>
                   </button>
                 </td>
                 <td className="border border-gray-300 px-2 py-1">
                   {new Date(course.createdAt).toLocaleString()}
-                </td>{" "}
+                </td>
                 {/* Display Created At */}
                 <td className="border border-gray-300 px-2 py-1">
                   {new Date(course.updatedAt).toLocaleString()}
-                </td>{" "}
+                </td>
                 {/* Display Updated At */}
               </tr>
             ))
