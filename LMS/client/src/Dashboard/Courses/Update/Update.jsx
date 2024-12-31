@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
+
+
 function Update() {
   const { courseId } = useParams();
    // Correctly destructure courseId from useParams
@@ -107,7 +109,8 @@ function Update() {
 
       if (response.status === 200) {
         alert("Course updated successfully!");
-        window.location.reload(); // Reload the page after successful update
+        window.location.href = '/admin-dashboard/courses';
+        // setTimeout(() => window.location.reload(), 0); // Reload the page after successful update
       }
     } catch (error) {
       console.error("Error updating course:", error);
@@ -139,7 +142,7 @@ function Update() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter course name"
-            required
+            
           />
         </div>
         <div>
@@ -151,7 +154,7 @@ function Update() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter author name"
-            required
+            
           />
         </div>
       </div>
@@ -166,12 +169,129 @@ function Update() {
             onChange={handleInputChange}
             className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             placeholder="Enter course price"
-            required
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Discount (%)</label>
+          <input
+            type="number"
+            name="discount"
+            value={courseData.discount}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter course discount"
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Rating</label>
+          <input
+            type="number"
+            name="rating"
+            value={courseData.rating}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter course rating"
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Number of Rating </label>
+          <input
+            type="number"
+            name="numRating"
+            value={courseData.numRatings}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter course number of ratings"
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+          <input
+            type="text"
+            name="Category"
+            value={courseData.category}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter course category"
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Enrollment</label>
+          <input
+            type="text"
+            name="enrollmentCount"
+            value={courseData.enrollmentCount}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            placeholder="Enter course enrollmentCount"
+            
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Level
+          </label>
+          <select
+            name="level"
+            value={courseData.level}
+            onChange={handleInputChange}
+            className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <option value="Beginner">Beginner</option>
+            <option value="Intermediate">Intermediate</option>
+            <option value="Advanced">Advanced</option>
+          </select>
+        </div>
+        <div className="w-1/6">
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Certification
+          </label>
+          <input
+            type="checkbox"
+            name="certification"
+            checked={courseData.certification}
+            onChange={() =>
+              setCourseData((prevData) => ({
+                ...prevData,
+                certification: !prevData.certification,
+              }))
+            }
+            className="w-4 h-4"
+          />
+        </div>
+        <div className="w-5/6 mr-10">
+          <label className="block text-sm font-medium text-gray-700 mb-1 ">
+            Image
+          </label>
+          <input
+            type="file"
+            name="image"
+            onChange={handleFileChange}
+            accept="image/*"
+            className="w-full border rounded-md shadow-sm p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            
           />
         </div>
         {/* Add additional form fields as needed */}
       </div>
-
+      <div>
+        <label className="block text-xl font-medium text-gray-700 my-3">
+          Introduction
+        </label>
+        <textarea
+          name="introduction"
+          value={courseData.introduction}
+          onChange={handleInputChange}
+          className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+          placeholder="Enter introduction"
+          rows="5" // Set the number of rows for height
+        />
+      </div>
       <div className="text-center">
         <button
           type="submit"

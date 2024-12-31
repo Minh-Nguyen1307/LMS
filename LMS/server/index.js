@@ -5,7 +5,8 @@ import dotenv from "dotenv";
 import { errorMiddlewares } from "./Middlewares/ErrorMiddlewares.js";
 import userRouters from "./Routes/userRoutes.js";
 import adminRouters from "./Routes/adminRoutes.js";
-import paypalRouters from "./Routes/paypalRoutes.js";
+// import paypalRoutes from "./Routes/paypalRoutes.js";
+
 
 
 dotenv.config();
@@ -27,8 +28,16 @@ app.use(errorMiddlewares);
 
 app.use('/api/admins', adminRouters)
 app.use('/api/users', userRouters)
-app.use("/api/paypal", paypalRouters);
 
+// app.use('/api/paypal', paypalRoutes);
+app.get('/complete-order', async (req, res)=>{
+  try {
+    await paypal.capturePayment(request.query.token)
+    res.send('Course purchased successfully')
+  } catch(error){
+    res.send('Error: ' + error.message)
+  }
+})
 
 
 const port = process.env.PORT || 8080;

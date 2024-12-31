@@ -7,6 +7,7 @@ import { capturePayment, createOrder } from '../Controllers/checkoutControllers.
 
 
 
+
 const userRouters = express.Router();
 userRouters.post('/signUpUser',checkEmailMiddlewares,signUpUser);
 userRouters.post('/signInUser',signInUser);
@@ -16,7 +17,8 @@ userRouters.get('/getCourseById/:courseId',getCourseById);
 userRouters.post('/addToCart/:userId',addToCart);
 userRouters.delete('/removeFromCart/:userId',removeFromCart)
 userRouters.get('/getAllCoursesInCart/:userId',getAllCoursesInCart)
-userRouters.post('/createOrder/:userId',createOrder)
-userRouters.post('/capturePayment/:userId',capturePayment)
+userRouters.post('/create-order/:userId',createOrder)
+userRouters.post('/capture-payment/:userId/',capturePayment);
+
 
 export default userRouters;

@@ -23,6 +23,7 @@ const CartPage = () => {
       setError("User ID not found.");
       return;
     }
+   
 
     try {
       const response = await axios.get(
@@ -45,11 +46,10 @@ const CartPage = () => {
   };
 
   // Remove Course from Cart
-  const removeFromCart1 = async (courseId) => {
+  const removeFromCart = async (courseId) => {
     try {
       const response = await axios.delete(
-        `${import.meta.env.VITE_API_BASE_URL}/users/removeFromCart/${userId}`,
-        { data: { courseId: courseId } } // Send only the _id
+        `${import.meta.env.VITE_API_BASE_URL}/users/removeFromCart/${userId}`, { data: { courseId }} // Send only the _id
       );
       setCartCourses(response.data.cartItems);
       setDiscountedPrice(response.data.totalPrice);
@@ -60,7 +60,24 @@ const CartPage = () => {
     }
   };
   
+  const handlePayment = async () => {
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_BASE_URL}/users/create-order/${userId}`,
+      );
+      const data = response?.data;
   
+      if (response.status === 200 && data?.approvalUrl) {
+        // Redirect to PayPal approval page
+        window.location.href = data.approvalUrl;
+      } else {
+        alert("Error initiating payment: " + (data?.error || "Unknown error"));
+      }
+    } catch (error) {
+      console.error("Payment Error:", error);
+      alert("Failed to initiate payment!");
+    }
+  };
 
   // Effect Hook to Fetch Cart Data
   useEffect(() => {
@@ -127,7 +144,7 @@ const CartPage = () => {
                   <div className="text-right w-2/3">
                     <button
                       className="text-red-600 hover:text-red-800 ml-2 mb-2 "
-                      onClick={() => removeFromCart1(course.courseId)}
+                      onClick={() => removeFromCart(course.courseId)}
                     >
                       <FontAwesomeIcon icon={faTimes} className="h-5" />
                     </button>
@@ -173,12 +190,12 @@ const CartPage = () => {
 
           <Link
             to={{
-              pathname: `/${userId}/cart/checkout`,
+              pathname: `/${userId}/cart`,
               state: { cartCourses, discountedPrice },
             }}
           >
-            <button className="btn btn-dark w-2/3 mt-5" type="submit">
-              Check out{" "}
+            <button className="btn btn-dark w-2/3 mt-5" type="submit" onClick={handlePayment}>
+              Check out
               <FontAwesomeIcon icon={faArrowRight} className="h-4 mx-2" />
             </button>
           </Link>

@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import Header from "./Header/Header";
 import CoursesPage from "./Pages/CoursesPage";
 import Clients from "./Dashboard/Clients/Clients";
-
 import Communications from "./Dashboard/Communications/Communications";
 import Revenues from "./Dashboard/Revenues/Revenues";
 import Settings from "./Dashboard/Settings/Settings";
@@ -22,6 +21,7 @@ import CourseDetailPage from "./Pages/CourseDetailPage";
 import CartPage from "./Pages/CartPage";
 import CoursesTable from "./Dashboard/Courses/Courses";
 import Update from "./Dashboard/Courses/Update/Update";
+import CompleteOrder from "./Pages/CompleteOrder";
 
 function App() {
   const location = useLocation();
@@ -53,6 +53,7 @@ function App() {
   <>
     <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
     <Route path="/:userId/cart" element={<CartPage />} />
+    <Route path="/complete-order" element={<CompleteOrder />} />
     
   </>
 )}
