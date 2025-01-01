@@ -21,21 +21,25 @@ import CourseDetailPage from "./Pages/CourseDetailPage";
 import CartPage from "./Pages/CartPage";
 import CoursesTable from "./Dashboard/Courses/Courses";
 import Update from "./Dashboard/Courses/Update/Update";
+import ProfilePage from "./Pages/ProfilePage";
+import Edit from "./Components/Profile/Edit/Edit";
+import Purchased from "./Components/Profile/Purchased/Purchased";
+import PaymentPage from "./Pages/PaymentPage";
 
-import CompleteOrder from "./Pages/CompleteOrder";
 
 
 function App() {
   const location = useLocation();
   const isAdminDashboard = location.pathname.startsWith("/admin-dashboard");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const isProfilePage = location.pathname.match(/^\/[^/]+\/profile/);
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
   }, []);
   return (
     <>
-     {!isAdminDashboard && <Header />}
+     {!isAdminDashboard && !isProfilePage && <Header />}
       <Routes>
       {isLoggedIn ? (
           <Route path="/:userId" element={<HomePage />} />
@@ -55,8 +59,11 @@ function App() {
   <>
     <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
     <Route path="/:userId/cart" element={<CartPage />} />
-    <Route path="/complete-order" element={<CompleteOrder />} />
-    
+    <Route path="/complete-order" element={<PaymentPage />} />
+    <Route path="/:userId/profile" element={<ProfilePage />}>
+  <Route path="introduction" element={<Edit />} />
+  <Route path="purchased" element={<Purchased />} />
+</Route>
     
   </>
 )}
@@ -90,7 +97,7 @@ function App() {
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
-      {!isAdminDashboard && <Footer />}
+      {!isAdminDashboard && !isProfilePage && <Footer />}
     </>
   );
 }

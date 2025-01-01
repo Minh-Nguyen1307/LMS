@@ -175,7 +175,7 @@ export default function Header() {
                       className="w-full text-left p-2 hover:bg-gray-200"
                       onClick={handleProfileClick}
                     >
-                      Profile
+                      My Profile
                     </button>
                     <button
                       className="w-full text-left p-2 hover:bg-gray-200"

@@ -63,7 +63,7 @@ const CartPage = () => {
   const handlePayment = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_API_BASE_URL}/users/create-order/${userId}`,
+        `${import.meta.env.VITE_API_BASE_URL}/users/create-order/${userId}`,{ userId }
       );
       const data = response?.data;
   
