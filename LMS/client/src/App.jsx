@@ -21,7 +21,9 @@ import CourseDetailPage from "./Pages/CourseDetailPage";
 import CartPage from "./Pages/CartPage";
 import CoursesTable from "./Dashboard/Courses/Courses";
 import Update from "./Dashboard/Courses/Update/Update";
+
 import CompleteOrder from "./Pages/CompleteOrder";
+
 
 function App() {
   const location = useLocation();
@@ -55,6 +57,7 @@ function App() {
     <Route path="/:userId/cart" element={<CartPage />} />
     <Route path="/complete-order" element={<CompleteOrder />} />
     
+    
   </>
 )}
 
@@ -65,6 +68,7 @@ function App() {
 
         <Route path="/signup" element={<SignUpPage />} />
         <Route path="/signin" element={<SignInPage />} />
+        
         <Route
           path="/admin-dashboard/*"
           element={

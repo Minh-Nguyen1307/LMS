@@ -75,7 +75,7 @@ const CartPage = () => {
       }
     } catch (error) {
       console.error("Payment Error:", error);
-      alert("Failed to initiate payment!");
+      alert("Cart is empty or not found!");
     }
   };
 

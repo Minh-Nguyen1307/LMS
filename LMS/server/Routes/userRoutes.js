@@ -3,7 +3,7 @@ import { checkEmailMiddlewares, signUpUser } from '../Controllers/signUpControll
 import { signInUser } from '../Controllers/signInControllers.js';
 import { getCourseById, getCourses, getTopCoursesByEnrollment } from '../Controllers/courseControllers.js';
 import { addToCart, getAllCoursesInCart, removeFromCart } from '../Controllers/cartControllers.js';
-import { capturePayment, createOrder } from '../Controllers/checkoutControllers.js';
+import {capturePayment, createOrder } from '../Controllers/checkoutControllers.js';
 
 
 
@@ -18,7 +18,10 @@ userRouters.post('/addToCart/:userId',addToCart);
 userRouters.delete('/removeFromCart/:userId',removeFromCart)
 userRouters.get('/getAllCoursesInCart/:userId',getAllCoursesInCart)
 userRouters.post('/create-order/:userId',createOrder)
-userRouters.post('/capture-payment/:userId/',capturePayment);
+userRouters.post('/capture-payment',capturePayment)
+
+
+
 
 
 export default userRouters;
