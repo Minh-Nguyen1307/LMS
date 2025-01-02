@@ -105,7 +105,7 @@ export default function Header() {
   };
 
   const handleProfileClick = () => {
-    navigate(`/${userId}/profile`);
+    navigate(`/${userId}/profile/home`);
   };
 
   return (

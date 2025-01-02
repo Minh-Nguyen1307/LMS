@@ -20,13 +20,13 @@ const CoursesPage = () => {
   });
   const [searchTerm, setSearchTerm] = useState(new URLSearchParams(location.search).get('search') || "");
 
-  // Check if the user is logged in
+ 
   useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
   }, []);
 
-  // Fetch courses when filters, pagination, or search term change
+  
   useEffect(() => {
     const fetchCourses = async () => {
       try {
@@ -36,7 +36,7 @@ const CoursesPage = () => {
               ...filter,
               page: pagination.currentPage,
               limit: 10,
-              search: searchTerm, // Include the search term in the request
+              search: searchTerm, 
             },
           }
         );
@@ -51,15 +51,15 @@ const CoursesPage = () => {
     };
 
     fetchCourses();
-  }, [filter, pagination.currentPage, searchTerm]); // Depend on searchTerm for fetching courses
+  }, [filter, pagination.currentPage, searchTerm]);
 
-  // Handle dynamic updates to search term from URL query string
+  
   useEffect(() => {
     const searchParam = new URLSearchParams(location.search).get('search') || '';
     setSearchTerm(searchParam);
   }, [location.search]);
 
-  // Filter and sort courses based on the current filters
+  
   const filteredCourses = useMemo(() => {
     return courses.filter((course) => {
       if (searchTerm && (!course.nameCourse || !course.nameCourse.toLowerCase().includes(searchTerm.toLowerCase()))) return false;
@@ -92,7 +92,7 @@ const CoursesPage = () => {
     });
   }, [filteredCourses, filter.sortBy]);
 
-  // Handle filter change
+  
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilter((prevFilter) => ({
@@ -101,7 +101,7 @@ const CoursesPage = () => {
     }));
   };
 
-  // Reset filters to default values
+
   const resetFilter = () => {
     setFilter({
       category: "",
@@ -110,7 +110,7 @@ const CoursesPage = () => {
     });
   };
 
-  // Handle pagination
+
   const handlePageChange = (newPage) => {
     if (newPage < 1 || newPage > pagination.totalPages) return;
     setPagination((prevPagination) => ({
@@ -121,12 +121,12 @@ const CoursesPage = () => {
 
   return (
     <div className="mx-10">
-      {/* Page Header */}
+     
       <div className="my-4">
         <p className="text-4xl font-medium">All Courses</p>
       </div>
 
-      {/* Breadcrumb Navigation */}
+   
       <div>
         <nav aria-label="breadcrumb" className="text-lg my-5">
           <ol className="breadcrumb">
@@ -141,16 +141,16 @@ const CoursesPage = () => {
       </div>
 
       <div className="flex justify-around items-start">
-        {/* Filter Sidebar */}
+       
         <div className="w-1/6 pr-5">
           <Filter filter={filter} handleFilterChange={handleFilterChange} resetFilter={resetFilter} />
         </div>
 
-        {/* Courses List */}
+       
         <div className="w-5/6">
           <CoursesList courses={sortedCourses} />
 
-          {/* Pagination Controls */}
+         
           <div className="flex justify-center items-center space-x-4 my-6">
             <button
               className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"

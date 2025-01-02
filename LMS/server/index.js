@@ -30,10 +30,7 @@ app.use(errorMiddlewares);
 app.use('/api/admins', adminRouters)
 app.use('/api/users', userRouters)
 
-// app.get('/complete-order', (req, res) => {
-//   res.send('Order Completed')});
-// app.get('/cancel-order', (req, res) => {
-//     res.redirect('/')});
+
 
 
 

@@ -34,11 +34,13 @@ export default function Side() {
 
         
         <div className="my-10 px-4">
-          <h1
+          <Link
+              to={`/${userId}/profile/home`}><h1
             className="text-3xl text-white font-bold mb-4 block text-center"
           >
             My Profile
           </h1>
+          </Link>
         </div>
 
       
@@ -46,20 +48,20 @@ export default function Side() {
           <li>
             <Link
               to={`/${userId}/profile/introduction`}
-              className={`block px-4 py-2 rounded-lg ${
+              className={`block px-4 py-2 rounded-lg text-xl ${
                 location.pathname === "/profile/introduction"
                   ? "bg-white text-black font-bold"
                   : "text-white hover:font-bold hover:text-black"
               }`}
             >
-              <FontAwesomeIcon icon={faBookOpenReader} className="mr-3" />
-              My Introduction
+              <FontAwesomeIcon icon={faBookOpenReader} className="mr-3 text-xl" />
+              Update Profile Information
             </Link>
           </li>
           <li>
             <Link
               to={`/${userId}/profile/purchased`}
-              className={`block px-4 py-2 rounded-lg ${
+              className={`block px-4 py-2 rounded-lg text-xl ${
                 location.pathname === "/profile/courses"
                   ? "bg-white text-black font-bold"
                   : "text-white hover:font-bold hover:text-black"
@@ -84,7 +86,7 @@ export default function Side() {
         </div>
         
         <div
-          className="text-white text-sm hover:font-extrabold cursor-pointer"
+          className="text-white hover:font-extrabold cursor-pointer text-2xl"
           onClick={handleSignOut}
         >
           Sign Out

@@ -11,9 +11,11 @@ export default function ProfilePage() {
       
       
     </div>
+
     <div className='h-screen w-5/6'>
         <Outlet />
       </div>
+      
     </div>
     </div>
   )

@@ -95,6 +95,29 @@ export const getAllAdmins = async (req, res, next) => {
     next(error);
   }
 };
+export const getUserById = async (req, res, next) => {
+  try {
+    const userId = req.params.id;  
+    const user = await UserModels.findById(userId);  
 
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
-  
+    // Return user details
+    res.status(200).json({
+      success: true,
+      message: "User retrieved successfully",
+      user: {
+        userId: user._id,  
+        userName: user.userName,
+        email: user.email,
+        avatar: user.avatar, 
+        phoneNumber: user.phoneNumber,  
+        createdAt: user.createdAt,
+        updatedAt: user.updatedAt,
+      },
+    });
+  } catch (error) {
+    next(error);}  
+};

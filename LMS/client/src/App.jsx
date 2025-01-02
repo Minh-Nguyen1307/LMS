@@ -26,6 +26,8 @@ import Edit from "./Components/Profile/Edit/Edit";
 import Purchased from "./Components/Profile/Purchased/Purchased";
 
 import CompleteOrder from "./Pages/CompleteOrder";
+import Profile from "./Components/Profile/Profile";
+
 
 
 
@@ -61,9 +63,10 @@ function App() {
     <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
     <Route path="/:userId/cart" element={<CartPage />} />
     <Route path="/complete-order" element={<CompleteOrder />} />
-    <Route path="/:userId/profile" element={<ProfilePage />}>
+    <Route path="/:userId/profile/*" element={<ProfilePage />}>
   <Route path="introduction" element={<Edit />} />
   <Route path="purchased" element={<Purchased />} />
+  <Route path="home" element={<Profile />} />
 </Route>
     
   </>

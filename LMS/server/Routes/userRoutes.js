@@ -6,6 +6,7 @@ import { addToCart, getAllCoursesInCart, removeFromCart } from '../Controllers/c
 import {capturePayment, createOrder } from '../Controllers/checkoutControllers.js';
 import { getPurchasedCourses } from '../Controllers/PurchasedController.js';
 import { userMiddlewares } from '../Middlewares/userMiddlewares.js';
+import { getUserById } from '../Controllers/accountsController.js';
 
 
 
@@ -23,7 +24,7 @@ userRouters.post('/create-order/:userId',createOrder)
 userRouters.get('/capture-payment',capturePayment)
 userRouters.get('/:userId/purchased',userMiddlewares, getPurchasedCourses)
 userRouters.get('/searchCoursesByName',searchCoursesByName);
-
+userRouters.get('/getUserById/:id',getUserById);
 
 
 export default userRouters;
