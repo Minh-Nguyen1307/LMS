@@ -86,7 +86,7 @@ export default function Admins() {
   };
 
   const handleTimeFilter = () => {
-    setPage(1); // Reset to the first page when filters are applied
+    setPage(1); 
   };
 
   if (loading) return <div>Loading...</div>;
@@ -100,7 +100,7 @@ export default function Admins() {
       <button className="btn btn-success">Add Admin</button></Link>
         </div>
         </div>
-      {/* Time Filter Section */}
+      
       <div className="mb-4">
         <input
           type="date"
@@ -123,7 +123,7 @@ export default function Admins() {
         
       </div>
 
-      {/* Pagination and Results per Page Section */}
+      
      
       <div className="mb-4">
         <select
@@ -157,12 +157,12 @@ export default function Admins() {
         </div>
       </div>
 
-      {/* Display Total Users */}
+      
       <div className="mb-4 text-gray-700">
         Total Admins: {totalAdmins}
       </div>
 
-      {/* Table displaying users */}
+      
       <table className="min-w-full bg-white border border-gray-200 shadow-md">
         <thead>
           <tr className="bg-gray-100 border-b">

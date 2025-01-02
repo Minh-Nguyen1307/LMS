@@ -68,7 +68,7 @@ const CartPage = () => {
       const data = response?.data;
   
       if (response.status === 200 && data?.approvalUrl) {
-        // Redirect to PayPal approval page
+       
         window.location.href = data.approvalUrl;
       } else {
         alert("Error initiating payment: " + (data?.error || "Unknown error"));
@@ -79,7 +79,7 @@ const CartPage = () => {
     }
   };
 
-  // Effect Hook to Fetch Cart Data
+  
   useEffect(() => {
     if (userId) {
       fetchCart();

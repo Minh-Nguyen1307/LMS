@@ -25,7 +25,7 @@ const getAccessToken = async () => {
   }
 };
 
-// Create PayPal order
+
 export const createOrder = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -66,13 +66,13 @@ export const createOrder = async (req, res, next) => {
   }
 };
 
-// Capture Payment
+
 export const capturePayment = async (req, res, next) => {
     try {
       const { userId, orderId, PayerID } = req.query;
       if (!orderId || !userId || !PayerID) return next(new Error("Missing required parameters"));
   
-      // Get PayPal access token
+      
       const accessToken = await getAccessToken();
       const captureResponse = await axios.post(
         `${process.env.PAYPAL_BASE_URL}/v2/checkout/orders/${orderId}/capture`,
@@ -80,55 +80,55 @@ export const capturePayment = async (req, res, next) => {
         { headers: { Authorization: `Bearer ${accessToken}`, "Content-Type": "application/json" } }
       );
   
-      // Check if payment was successful
+      
       if (captureResponse.data.status !== "COMPLETED") throw new Error("Payment not completed");
   
-      // Get the cart associated with the user
+     
       const cart = await CartModels.findOne({ userId });
       if (!cart) throw new Error("Cart not found");
   
-      const purchasedCourses = cart.cartItems.map((item) => item.courseId); // Extract course IDs
+      const purchasedCourses = cart.cartItems.map((item) => item.courseId); 
   
-      // Check if the user already has purchased courses
+      
       const existingPurchased = await PurchasedCoursesModel.findOne({ userId });
   
-      // If the user has already purchased a course, check for duplicates
+      
       if (existingPurchased) {
         const existingCourseIds = existingPurchased.courses.map(course => course.toString());
         
-        // Check if any of the purchased courses already exist in the user's purchased courses
+        
         const duplicateCourses = purchasedCourses.filter(courseId => existingCourseIds.includes(courseId.toString()));
         
         if (duplicateCourses.length > 0) {
-          // If there are duplicate courses, return an error message
+          
           return res.status(400).json({
             message: "Some courses have already been purchased.",
             duplicateCourses: duplicateCourses
           });
         }
   
-        // If no duplicates, add new courses to the list
+        
         existingPurchased.courses.push(...purchasedCourses);
         await existingPurchased.save();
       } else {
-        // If no previous purchase, create a new document for the user
+       
         await PurchasedCoursesModel.create({ userId, courses: purchasedCourses });
       }
   
-      // Clear the cart after successful purchase
+      
       await CartModels.findOneAndUpdate({ userId }, { $set: { cartItems: [], totalPrice: 0 } });
   
-      // Fetch the updated list of purchased courses
+      
       const updatedPurchasedCourses = await PurchasedCoursesModel.findOne({ userId });
   
-      // Respond with success message and the purchased courses
+      
       res.status(200).json({
         message: "Payment captured and courses saved!",
         payment: captureResponse.data,
-        purchasedCourses: updatedPurchasedCourses.courses, // Return the purchased courses
+        purchasedCourses: updatedPurchasedCourses.courses,
       });
     } catch (error) {
-      next(error); // Handle errors
+      next(error); 
     }
   };
   

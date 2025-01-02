@@ -33,7 +33,7 @@ export const addToCart = async (req, res, next) => {
       return res.status(404).json({ message: "Course not found" });
     }
 
-    // Check if course is already in the cart
+    
     const existingCartItem = cart.cartItems.find(
       (cartItem) => cartItem.courseId.toString() === course._id.toString()
     );
@@ -44,12 +44,12 @@ export const addToCart = async (req, res, next) => {
         .json({ message: "The course is already in the cart" });
     }
 
-    // Calculate prices
+    
     const priceBeforeDiscount = course.price || 0;
     const priceDiscount = course.price * (course.discount || 0) / 100;
     const priceAfterDiscount = priceBeforeDiscount - priceDiscount;
 
-    // Add the course to the cart with all the necessary details
+    
     cart.cartItems.push({
       courseId: course._id,
       nameCourse: course.nameCourse,

@@ -4,19 +4,19 @@ import React from 'react';
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 export default function Sidebar() {
-  const navigate = useNavigate(); // For redirecting the user
+  const navigate = useNavigate(); 
   const location = useLocation();
 
-  // Fetch user avatar from localStorage or use a default image
+  
   const userAvatar = localStorage.getItem("userAvatar") || '/b1.png';
 
-  // Function to handle sign out
+ 
   const handleSignOut = () => {
-    // Remove authToken from localStorage to log out the user
+    
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
     
-    // Redirect the user to the sign-in page
+    
     navigate("/signin");
   };
 
@@ -116,7 +116,7 @@ export default function Sidebar() {
       </div>
 
       <div className="flex flex-col items-center space-y-3 mb-4">
-  {/* Avatar image */}
+ 
   <div className="w-12 h-12 rounded-full overflow-hidden border cursor-pointer">
     <img src={userAvatar} alt="User Avatar" className="w-full h-full object-cover" />
   </div>

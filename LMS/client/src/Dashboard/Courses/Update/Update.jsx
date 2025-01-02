@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 
 function Update() {
   const { courseId } = useParams();
-   // Correctly destructure courseId from useParams
+   
   const [courseData, setCourseData] = useState({
     nameCourse: "",
     price: "",
@@ -15,17 +15,17 @@ function Update() {
     numRatings: "",
     image: null,
     author: "",
-    level: "Beginner", // Default value set to "Beginner"
+    level: "Beginner", 
     introduction: "",
     discount: "",
-    enrollmentCount: 0, // Default value set to 0
-    certification: false, // Default value set to false
+    enrollmentCount: 0, 
+    certification: false, 
     timestamp: new Date(),
   });
 
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch course details by ID
+ 
   useEffect(() => {
     const fetchCourseDetails = async () => {
       try {
@@ -38,21 +38,21 @@ function Update() {
           }
         );
 
-        const course = response.data.course; // Extract course from response
+        const course = response.data.course; 
         setCourseData({
           nameCourse: course.nameCourse || "",
           price: course.price || "",
           category: course.category || "",
           rating: course.rating || "",
           numRatings: course.numRatings || "",
-          image: null, // Image is not directly editable in form
+          image: null, 
           author: course.author || "",
           level: course.level || "Beginner",
           introduction: course.introduction || "",
           discount: course.discount || "",
           enrollmentCount: course.enrollmentCount || 0,
           certification: course.certification || false,
-          timestamp: new Date(course.updatedAt), // Use the updated timestamp
+          timestamp: new Date(course.updatedAt), 
         });
         setIsLoading(false);
       } catch (error) {
@@ -64,7 +64,7 @@ function Update() {
     fetchCourseDetails();
   }, [courseId]);
 
-  // Handle input changes
+ 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setCourseData((prevData) => ({
@@ -73,20 +73,20 @@ function Update() {
     }));
   };
 
-  // Handle file change for the image
+  
   const handleFileChange = (e) => {
     setCourseData((prevData) => ({
       ...prevData,
-      image: e.target.files[0], // Store the selected file
+      image: e.target.files[0], 
     }));
   };
 
-  // Handle form submission
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
 
-    // Append course data to FormData
+   
     for (const key in courseData) {
       if (key === "image") {
         if (courseData[key]) formData.append(key, courseData[key]);
@@ -110,7 +110,7 @@ function Update() {
       if (response.status === 200) {
         alert("Course updated successfully!");
         window.location.href = '/admin-dashboard/courses';
-        // setTimeout(() => window.location.reload(), 0); // Reload the page after successful update
+        
       }
     } catch (error) {
       console.error("Error updating course:", error);
@@ -118,12 +118,12 @@ function Update() {
     }
   };
 
-  // Render loading state if data is being fetched
+  
   if (isLoading) {
     return <div className="text-center mt-20 text-2xl">Loading course details...</div>;
   }
 
-  // Render form
+  
   return (
     <form
       onSubmit={handleSubmit}
@@ -277,7 +277,7 @@ function Update() {
             
           />
         </div>
-        {/* Add additional form fields as needed */}
+        
       </div>
       <div>
         <label className="block text-xl font-medium text-gray-700 my-3">
@@ -289,7 +289,7 @@ function Update() {
           onChange={handleInputChange}
           className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
           placeholder="Enter introduction"
-          rows="5" // Set the number of rows for height
+          rows="5" 
         />
       </div>
       <div className="text-center">

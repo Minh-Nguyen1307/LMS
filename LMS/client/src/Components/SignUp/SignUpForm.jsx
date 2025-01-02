@@ -15,13 +15,13 @@ export default function SignUpForm() {
   const [success, setSuccess] = useState("");
   const navigate = useNavigate();
 
-  // Handle input field changes
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  // Password validation function
+
   const validatePassword = (password) => {
     const hasUpperCase = /[A-Z]/.test(password);
     const hasLowerCase = /[a-z]/.test(password);
@@ -30,7 +30,7 @@ export default function SignUpForm() {
     return hasUpperCase && hasLowerCase && hasSpecialChar && isLongEnough;
   };
 
-  // Handle form submission
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -38,7 +38,7 @@ export default function SignUpForm() {
 
     const { userName, email, password, confirmPassword } = formData;
 
-    // Validation checks
+    
     if (!userName || !email || !password || !confirmPassword) {
       setError("All fields are required.");
       return;
@@ -57,13 +57,13 @@ export default function SignUpForm() {
     }
 
     try {
-      // Proceed with user registration (email is checked by backend)
+      
       const response = await axios.post(
         `${import.meta.env.VITE_API_BASE_URL}/users/signUpUser`,
         { userName, email, password }
       );
 
-      // Success message if registration is successful
+      
       setSuccess(response.data.message);
       setFormData({
         userName: "",
@@ -72,17 +72,17 @@ export default function SignUpForm() {
         confirmPassword: "",
       });
 
-      // Redirect to the login page after a short delay
+      
       setTimeout(() => {
         navigate("/signin");
       }, 2000);
     } catch (err) {
-      // Check if the email already exists (from the backend)
+      
       if (err.response?.data?.message === "Email already exists.") {
         setError("Email already exists. Please choose a different email.");
         
       } else {
-        // Handle other errors
+        
         setError(
           err.response?.data?.message ||
             "Unable to process your request. Please try again later."
@@ -93,7 +93,7 @@ export default function SignUpForm() {
 
   return (
     <form onSubmit={handleSubmit} className="d-flex flex-col justify-around h-[600px] w-[500px]">
-      {/* UserName Input */}
+      
       <FormInput
         label="User Name"
         name="userName"
@@ -104,7 +104,7 @@ export default function SignUpForm() {
         required
       />
       
-      {/* Email Input */}
+    
       <FormInput
         label="Email"
         name="email"
@@ -115,7 +115,7 @@ export default function SignUpForm() {
         required
       />
       
-      {/* Password Input */}
+      
       <FormInput
         label="Password"
         name="password"
@@ -127,7 +127,7 @@ export default function SignUpForm() {
         required
       />
       
-      {/* Confirm Password Input */}
+      
       <FormInput
         label="Confirm Password"
         name="confirmPassword"
@@ -138,13 +138,13 @@ export default function SignUpForm() {
         required
       />
       
-      {/* Submit Button */}
+      
       <Button type="submit">Create Account</Button>
 
-      {/* Error Message */}
+     
       {error && <div className="text-red-500 mb-4">{error}</div>}
 
-      {/* Success Message */}
+     
       {success && <div className="text-green-500 mb-4">{success}</div>}
     </form>
   );

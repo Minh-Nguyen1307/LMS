@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="bg-gray-900 flex flex-col md:flex-row justify-around items-center p-6 md:h-96">
         <div className="mx-10 flex flex-col md:flex-row justify-center items-start  text-white space-y-8 md:space-y-0 w-full">
           
-          {/* First Section - Logo and Description */}
+         
           <div className="w-full md:w-1/3">
             <Link to="/" className="flex justify-center">
               <img src="/Logo.png" alt="Logo of Byway" className="mb-4" />
@@ -22,7 +22,7 @@ export default function Footer() {
             </div>
           </div>
 
-          {/* Second Section - Get Help */}
+        
           <div className="w-full flex justify-center items-center flex-col md:w-1/4">
             <p className="text-2xl font-semibold text-white my-2 ">Get Help</p>
             <div className="font-thin ">

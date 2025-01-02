@@ -47,7 +47,7 @@ const CoursesPage = () => {
     fetchCourses();
   }, [filter, pagination.currentPage]);
 
-  // Apply filters to the courses
+ 
   const filteredCourses = courses.filter((course) => {
     if (filter.category && course.category !== filter.category) return false;
     if (filter.level && course.level !== filter.level) return false;
@@ -89,9 +89,9 @@ const CoursesPage = () => {
     });
   };
 
-  // Handle page change
+ 
   const handlePageChange = (newPage) => {
-    if (newPage < 1 || newPage > pagination.totalPages) return; // Prevent out-of-bounds
+    if (newPage < 1 || newPage > pagination.totalPages) return; 
     setPagination((prevPagination) => ({
       ...prevPagination,
       currentPage: newPage,
@@ -119,7 +119,7 @@ const CoursesPage = () => {
       </div>
       <div className="flex justify-around items-start">
         <div className="w-1/6 pr-5">
-          {/* Filter Section */}
+         
           <Filter
             filter={filter}
             handleFilterChange={handleFilterChange}
@@ -127,12 +127,12 @@ const CoursesPage = () => {
           />
         </div>
         <div className="w-5/6">
-          {/* Courses List */}
+          
           <CoursesList  courses={sortedCourses} />
           
-          {/* Pagination Controls */}
+        
           <div className="flex justify-center items-center space-x-4 my-6">
-  {/* Previous Button */}
+
   <button
     className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
     onClick={() => handlePageChange(pagination.currentPage - 1)}
@@ -141,15 +141,15 @@ const CoursesPage = () => {
     Previous
   </button>
 
-  {/* Page Numbers */}
+  
   <div className="text-lg">
     <p>{pagination.currentPage}/{pagination.totalPages}</p>
   </div>
 
-  {/* Next Button */}
+ 
  
 
-  {/* Next Button */}
+  
   <button
     className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
     onClick={() => handlePageChange(pagination.currentPage + 1)}

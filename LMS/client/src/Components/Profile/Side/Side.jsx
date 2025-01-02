@@ -12,10 +12,10 @@ export default function Side() {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
   }, []);
-  // Fetch user avatar from localStorage or use a default image
+  
   const userAvatar = localStorage.getItem("userAvatar") || '/b1.png';
 
-  // Function to handle sign out
+ 
   const handleSignOut = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("user");
@@ -24,7 +24,7 @@ export default function Side() {
 
   return (
     <div className="h-screen bg-gray-900 flex flex-col justify-between p-6 w-full">
-      {/* Logo Section */}
+      
       <div>
         <div className="w-full mb-10">
           <Link to={isLoggedIn ? `/${userId}` : `/`}>
@@ -32,7 +32,7 @@ export default function Side() {
           </Link>
         </div>
 
-        {/* Profile Title */}
+        
         <div className="my-10 px-4">
           <h1
             className="text-3xl text-white font-bold mb-4 block text-center"
@@ -41,7 +41,7 @@ export default function Side() {
           </h1>
         </div>
 
-        {/* Navigation Links */}
+      
         <ul className="space-y-4">
           <li>
             <Link
@@ -72,9 +72,9 @@ export default function Side() {
         </ul>
       </div>
 
-      {/* User Avatar and Sign-Out */}
+      
       <div className="flex flex-col items-center space-y-3">
-        {/* Avatar */}
+        
         <div className="w-12 h-12 rounded-full overflow-hidden border cursor-pointer">
           <img
             src={userAvatar}
@@ -82,7 +82,7 @@ export default function Side() {
             className="w-full h-full object-cover"
           />
         </div>
-        {/* Sign-Out Button */}
+        
         <div
           className="text-white text-sm hover:font-extrabold cursor-pointer"
           onClick={handleSignOut}

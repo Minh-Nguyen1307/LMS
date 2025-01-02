@@ -1,29 +1,29 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
+import { useParams, useNavigate } from "react-router-dom"; 
 
 const Purchased = () => {
-  const { userId } = useParams(); // Get userId from URL params
-  const navigate = useNavigate(); // useNavigate hook for navigation
+  const { userId } = useParams();
+  const navigate = useNavigate(); 
 
-  const [courses, setCourses] = useState([]); // Store the purchased courses
-  const [totalCourses, setTotalCourses] = useState(0); // Total number of purchased courses
-  const [currentPage, setCurrentPage] = useState(1); // Current page for pagination
-  const [totalPages, setTotalPages] = useState(0); // Total number of pages
+  const [courses, setCourses] = useState([]); 
+  const [totalCourses, setTotalCourses] = useState(0); 
+  const [currentPage, setCurrentPage] = useState(1); 
+  const [totalPages, setTotalPages] = useState(0); 
 
   useEffect(() => {
     const fetchPurchasedCourses = async () => {
       try {
-        const token = localStorage.getItem('authToken'); // Get token from local storage or cookies
+        const token = localStorage.getItem('authToken'); 
         if (!token) {
-          // Handle token not being present (redirect to login or show error)
+          
           console.error("No authentication token found");
           return;
         }
 
         const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/${userId}/purchased`, {
           headers: {
-            Authorization: `Bearer ${token}`, // Attach the token in the Authorization header
+            Authorization: `Bearer ${token}`, 
           },
         });
 
@@ -38,12 +38,12 @@ const Purchased = () => {
     fetchPurchasedCourses();
   }, [userId, currentPage]);
 
-  // Redirect to the course details page when the "Learn Now" button is clicked
+  
   const handleLearnNow = (courseId) => {
-    navigate(`/course/${courseId}`); // Redirect to the course details page using navigate
+    navigate(`/course/${courseId}`); 
   };
 
-  // Pagination handler
+  
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
@@ -64,7 +64,7 @@ const Purchased = () => {
 
               <button
                 className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
-                onClick={() => handleLearnNow(course.courseId)} // Call handleLearnNow on button click
+                onClick={() => handleLearnNow(course.courseId)} 
               >
                 Learn Now
               </button>
@@ -73,7 +73,7 @@ const Purchased = () => {
         </ul>
       )}
 
-      {/* Pagination */}
+      
       <div className="pagination mt-4">
         {Array.from({ length: totalPages }, (_, index) => (
           <button

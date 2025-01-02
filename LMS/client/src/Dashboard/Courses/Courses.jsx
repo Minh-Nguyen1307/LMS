@@ -14,7 +14,7 @@ const Courses = () => {
     search: "",
     sortBy: "",
     page: 1,
-    limit: 10, // Default limit
+    limit: 10, 
   });
   const [pagination, setPagination] = useState({
     currentPage: 1,
@@ -22,10 +22,10 @@ const Courses = () => {
     totalCourses: 0,
   });
 
-  // Fetch courses from the API
+ 
   const fetchCourses = async () => {
     try {
-      // Get the token from localStorage or your preferred storage
+      
       const token = localStorage.getItem("authToken");
 
       const response = await axios.get(
@@ -33,15 +33,15 @@ const Courses = () => {
         {
           params: filters,
           headers: {
-            Authorization: `Bearer ${token}`, // Add token to headers
+            Authorization: `Bearer ${token}`, 
           },
         }
       );
 
-      // Check if pagination data exists
+      
       setCourses(response.data.courses || []);
 
-      // Set pagination data or defaults
+     
       if (response.data.pagination) {
         setPagination({
           currentPage: response.data.pagination.currentPage,
@@ -62,22 +62,22 @@ const Courses = () => {
     }
   };
 
-  // Fetch courses when filters or page change
+ 
   useEffect(() => {
     fetchCourses();
   }, [filters]);
 
-  // Handle filter changes
+
   const handleFilterChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: type === "checkbox" ? checked : value,
-      page: 1, // Reset to page 1 when filters change
+      page: 1,
     }));
   };
 
-  // Handle pagination change
+  
   const handlePagination = (page) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
@@ -85,19 +85,19 @@ const Courses = () => {
     }));
   };
 
-  // Handle limit change
+ 
   const handleLimitChange = (e) => {
     const newLimit = parseInt(e.target.value, 10);
     setFilters((prevFilters) => ({
       ...prevFilters,
       limit: newLimit,
-      page: 1, // Reset to page 1 when limit changes
+      page: 1, 
     }));
   };
 
   return (
     <div className="p-6">
-      {/* Filters Section */}
+     
       <div className="flex">
         <h1 className="text-2xl font-bold mb-4">Course Management</h1>
         <div className="flex justify-end w-9/12">
@@ -260,11 +260,11 @@ const Courses = () => {
                 <td className="border border-gray-300 px-2 py-1">
                   {new Date(course.createdAt).toLocaleString()}
                 </td>
-                {/* Display Created At */}
+                
                 <td className="border border-gray-300 px-2 py-1">
                   {new Date(course.updatedAt).toLocaleString()}
                 </td>
-                {/* Display Updated At */}
+                
               </tr>
             ))
           ) : (

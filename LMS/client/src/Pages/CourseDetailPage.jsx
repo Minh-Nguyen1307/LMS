@@ -3,8 +3,8 @@ import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 
 const CourseDetailPage = () => {
-  const { courseId } = useParams(); // Get courseId from the route
-  const [courseDetails, setCourseDetails] = useState(null); // Renamed state variable
+  const { courseId } = useParams(); 
+  const [courseDetails, setCourseDetails] = useState(null); 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { userId } = useParams();
@@ -19,7 +19,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
         const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/users/getCourseById/${courseId}`
         );
-        setCourseDetails(response.data.course); // Set course data
+        setCourseDetails(response.data.course);
       } catch (err) {
         setError(err.response?.data?.error || "Failed to fetch course");
       } finally {
@@ -30,7 +30,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
     if (courseId) {
       fetchCourse();
     }
-  }, [courseId]); // Re-fetch course data when courseId changes
+  }, [courseId]); 
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -59,16 +59,16 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
       </div>
 
       <div className="flex justify-between gap-6">
-        {/* Course Image */}
+      
        
 
-        {/* Course Details */}
+      
         <div className="w-2/3 bg-gray-100 rounded-2xl p-6">
           <h1 className="text-6xl p-3 font-bold text-gray-800">
             {courseDetails.nameCourse}
           </h1>
           <div className="grid grid-cols-4 gap-6 mt-6 text-gray-600">
-            {/* First Column */}
+            
             <div className="col-span-1">
               <table className="w-full">
                 <tbody>
@@ -88,7 +88,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
               </table>
             </div>
 
-            {/* Second Column */}
+          
             <div className="col-span-">
               <table className="w-full">
                 <tbody>
@@ -108,7 +108,7 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
               </table>
             </div>
 
-            {/* Third Column */}
+          
             <div className="col-span-2">
               <table className="w-full">
                 <tbody>
@@ -148,13 +148,13 @@ const [isLoggedIn, setIsLoggedIn] = useState(false);
         </div>
       </div>
 
-      {/* Introduction Section */}
+      
       <div className="mt-8 w-2/3">
         <h2 className="text-2xl font-bold text-gray-800 my-3">Introduction:</h2>
         <p>{courseDetails.introduction}</p>
       </div>
 
-      {/* Reviews Section */}
+      
       <div className="mt-8">
         <h2 className="text-2xl font-bold text-gray-800">Reviews:</h2>
         {courseDetails.reviews && courseDetails.reviews.length > 0 ? (

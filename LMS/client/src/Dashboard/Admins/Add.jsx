@@ -14,7 +14,7 @@ export default function Add() {
   const [showPassword, setShowPassword] = useState(false);
 
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle the password visibility
+    setShowPassword(!showPassword); 
   };
 
   const handleSubmit = async (e) => {
@@ -81,12 +81,12 @@ export default function Add() {
               Password
             </label>
             <input
-              type={showPassword ? "text" : "password"} // Toggle between text and password types
+              type={showPassword ? "text" : "password"} 
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
-              className="w-full p-2 border rounded pr-10" // Add padding-right to create space for the icon
+              className="w-full p-2 border rounded pr-10" 
             />
             <button
               type="button"

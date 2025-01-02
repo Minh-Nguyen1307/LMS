@@ -30,12 +30,12 @@ export const getPurchasedCourses = async (req, res, next) => {
       level: course.level,
     }));
 
-    // Send the paginated courses and total courses count in the response
+    
     res.status(200).json({
-      totalCourses,       // Total number of purchased courses (useful for pagination)
-      courses: coursesWithId,  // List of courses with courseId
-      page,               // Current page number
-      totalPages: Math.ceil(totalCourses / limit), // Total number of pages based on the total courses and limit
+      totalCourses,       
+      courses: coursesWithId,  
+      page,              
+      totalPages: Math.ceil(totalCourses / limit),
     });
   } catch (error) {
     console.error("Error fetching purchased courses:", error);

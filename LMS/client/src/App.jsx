@@ -24,7 +24,8 @@ import Update from "./Dashboard/Courses/Update/Update";
 import ProfilePage from "./Pages/ProfilePage";
 import Edit from "./Components/Profile/Edit/Edit";
 import Purchased from "./Components/Profile/Purchased/Purchased";
-import PaymentPage from "./Pages/PaymentPage";
+
+import CompleteOrder from "./Pages/CompleteOrder";
 
 
 
@@ -59,7 +60,7 @@ function App() {
   <>
     <Route path="/:userId/courses/:courseId" element={<CourseDetailPage />} />
     <Route path="/:userId/cart" element={<CartPage />} />
-    <Route path="/complete-order" element={<PaymentPage />} />
+    <Route path="/complete-order" element={<CompleteOrder />} />
     <Route path="/:userId/profile" element={<ProfilePage />}>
   <Route path="introduction" element={<Edit />} />
   <Route path="purchased" element={<Purchased />} />

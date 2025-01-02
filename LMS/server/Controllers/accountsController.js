@@ -8,27 +8,27 @@ export const getAllUsers = async (req, res, next) => {
 
     const skip = (page - 1) * limit;
 
-    // Build the filter object dynamically
+   
     const filter = { role: "user" };
 
-    // Add time filtering if `startTime` or `endTime` is provided
+   
     if (startTime || endTime) {
       filter.createdAt = {};
       if (startTime) filter.createdAt.$gte = new Date(startTime); 
       if (endTime) filter.createdAt.$lte = new Date(endTime);   
     }
 
-    // Set up the sorting
+  
     let sort = {};
     if (sortBy) {
-      // Default sort by 'createdAt'
+     
       sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
     } else {
-      // Default to sort by 'createdAt' in descending order
+      
       sort.createdAt = -1;
     }
 
-    // Fetch the users with dynamic filters and sorting
+    
     const users = await UserModels.find(filter)
       .skip(Number(skip))
       .limit(Number(limit))
@@ -55,27 +55,27 @@ export const getAllAdmins = async (req, res, next) => {
 
     const skip = (page - 1) * limit;
 
-    // Build the filter object dynamically
+   
     const filter = { role: "admin" };
 
-    // Add time filtering if `startTime` or `endTime` is provided
+    
     if (startTime || endTime) {
       filter.createdAt = {};
       if (startTime) filter.createdAt.$gte = new Date(startTime); 
       if (endTime) filter.createdAt.$lte = new Date(endTime);   
     }
 
-    // Set up the sorting
+    
     let sort = {};
     if (sortBy) {
-      // Default sort by 'createdAt'
+     
       sort[sortBy] = sortOrder === 'desc' ? -1 : 1;
     } else {
-      // Default to sort by 'createdAt' in descending order
+      
       sort.createdAt = -1;
     }
 
-    // Fetch the users with dynamic filters and sorting
+    
     const users = await UserModels.find(filter)
       .skip(Number(skip))
       .limit(Number(limit))

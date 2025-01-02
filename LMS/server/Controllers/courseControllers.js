@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 import { v2 as cloudinary } from "cloudinary";
 import fs from "fs";
 import CourseModels from "../Models/courseModels.js";
-import CartModels from "../Models/cartModels.js";
+
 dotenv.config();
 cloudinary.config({
   cloud_name: process.env.CLOUD_NAME,
@@ -85,7 +85,7 @@ export const getCourses = async (req, res, next) => {
 
     let filter = {};
 
-    // Apply filters based on query parameters
+    
     if (category) filter.category = category;
     if (level) filter.level = level;
     if (rating) filter.rating = { $gte: Number(rating) };
@@ -94,7 +94,7 @@ export const getCourses = async (req, res, next) => {
 
     let query = CourseModels.find(filter);
 
-    // Apply sorting based on query parameter
+   
     if (sortBy) {
       const sortOptions = {
         price: { price: 1 },
@@ -105,26 +105,26 @@ export const getCourses = async (req, res, next) => {
         numRatings: { numRatings: -1 },
         discount: { discount: -1 },
         new: { updatedAt: -1 },
-        enrollmentCount: { enrollmentCount: -1 }, // Sort by enrollment count descending
-        "-enrollmentCount": { enrollmentCount: 1 }, // Sort by enrollment count ascending
+        enrollmentCount: { enrollmentCount: -1 }, 
+        "-enrollmentCount": { enrollmentCount: 1 }, 
       };
       query = query.sort(sortOptions[sortBy] || {});
     }
 
-    // Calculate skip value based on current page and limit
+    
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(Number(limit));
 
-    // Fetch courses based on filters and pagination
+   
     const courses = await query.exec();
 
-    // Calculate the total number of courses for pagination
+    
     const totalCourses = await CourseModels.countDocuments(filter);
 
-    // Calculate the total number of pages based on total courses and limit
+    
     const totalPages = Math.ceil(totalCourses / limit);
 
-    // Return courses with pagination details
+    
     res.status(200).json({
       pagination: {
         currentPage: Number(page),
@@ -173,7 +173,7 @@ export const getCourseById = async (req, res, next) => {
       course: course,
     });
   } catch (error) {
-    console.error('Error fetching course:', error); // Log any errors
+    console.error('Error fetching course:', error); 
     next(error);
   }
 };
@@ -254,22 +254,22 @@ export const getCoursesByAdmin = async (req, res, next) => {
       sortBy,
       page = 1,
       limit = 10,
-      status, // Filter for status like 'active', 'deactivated', 'unlisted'
+      status, 
     } = req.query;
 
     let filter = {};
 
-    // Apply filters based on query parameters
+    
     if (category) filter.category = category;
     if (level) filter.level = level;
     if (rating) filter.rating = { $gte: Number(rating) };
     if (certification) filter.certification = certification === "true";
     if (search) filter.nameCourse = { $regex: search, $options: "i" };
-    if (status) filter.status = status; // Filter by course status
+    if (status) filter.status = status; 
 
     let query = CourseModels.find(filter);
 
-    // Apply sorting based on query parameter
+    
     if (sortBy) {
       const sortOptions = {
         price: { price: 1 },
@@ -280,26 +280,26 @@ export const getCoursesByAdmin = async (req, res, next) => {
         numRatings: { numRatings: -1 },
         discount: { discount: -1 },
         new: { updatedAt: -1 },
-        enrollmentCount: { enrollmentCount: -1 }, // Sort by enrollment count descending
-        "-enrollmentCount": { enrollmentCount: 1 }, // Sort by enrollment count ascending
+        enrollmentCount: { enrollmentCount: -1 }, 
+        "-enrollmentCount": { enrollmentCount: 1 }, 
       };
       query = query.sort(sortOptions[sortBy] || {});
     }
 
-    // Calculate skip value based on current page and limit
+   
     const skip = (page - 1) * limit;
     query = query.skip(skip).limit(Number(limit));
 
-    // Fetch courses based on filters and pagination
+    
     const courses = await query.exec();
 
-    // Calculate the total number of courses for pagination
+   
     const totalCourses = await CourseModels.countDocuments(filter);
 
-    // Calculate the total number of pages based on total courses and limit
+    
     const totalPages = Math.ceil(totalCourses / limit);
 
-    // Return courses with pagination details
+   
     res.status(200).json({
       pagination: {
         currentPage: Number(page),
@@ -309,6 +309,45 @@ export const getCoursesByAdmin = async (req, res, next) => {
         message: "Get all courses successfully for admin.",
       },
       courses: courses.length,
+      courses,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const searchCoursesByName = async (req, res, next) => {
+  try {
+    const { search, page = 1, limit = 10 } = req.query;
+
+    if (!search) {
+      return res.status(400).json({ message: "Search term is required" });
+    }
+
+    
+    const filter = {
+      nameCourse: { $regex: search, $options: "i" }, 
+    };
+
+   
+    let query = CourseModels.find(filter);
+
+    const skip = (page - 1) * limit;
+    query = query.skip(skip).limit(Number(limit));
+
+    const courses = await query.exec();
+
+    const totalCourses = await CourseModels.countDocuments(filter);
+    const totalPages = Math.ceil(totalCourses / limit);
+
+    res.status(200).json({
+      pagination: {
+        currentPage: Number(page),
+        totalPages,
+        totalCourses,
+        success: true,
+        message: "Courses fetched successfully.",
+      },
       courses,
     });
   } catch (error) {
