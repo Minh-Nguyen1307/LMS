@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-import { Link, useParams } from "react-router-dom";
+import { useLocation, Link, useParams } from "react-router-dom";
 import Filter from "../Components/Courses/Filter";
 import CoursesList from "../Components/Courses/CoursesList";
 
 const CoursesPage = () => {
   const { userId } = useParams();
   const [courses, setCourses] = useState([]);
+  const location = useLocation();
    const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [filter, setFilter] = useState({
     category: "",
@@ -18,6 +19,7 @@ const CoursesPage = () => {
     currentPage: 1,
     totalPages: 1,
   });
+  const [searchTerm, setSearchTerm] = useState(new URLSearchParams(location.search).get('search') || '');
  useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
@@ -49,6 +51,7 @@ const CoursesPage = () => {
 
  
   const filteredCourses = courses.filter((course) => {
+    if (searchTerm && !course.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
     if (filter.category && course.category !== filter.category) return false;
     if (filter.level && course.level !== filter.level) return false;
     return true;
