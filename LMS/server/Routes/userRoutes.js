@@ -6,7 +6,7 @@ import { addToCart, getAllCoursesInCart, removeFromCart } from '../Controllers/c
 import {capturePayment, createOrder } from '../Controllers/checkoutControllers.js';
 import { getPurchasedCourses } from '../Controllers/PurchasedController.js';
 import { userMiddlewares } from '../Middlewares/userMiddlewares.js';
-import { getUserById } from '../Controllers/accountsController.js';
+import { getUserById, updateUser } from '../Controllers/accountsController.js';
 
 
 
@@ -25,6 +25,6 @@ userRouters.get('/capture-payment',capturePayment)
 userRouters.get('/:userId/purchased',userMiddlewares, getPurchasedCourses)
 userRouters.get('/searchCoursesByName',searchCoursesByName);
 userRouters.get('/getUserById/:id',getUserById);
-
+userRouters.put('/updateUser/:id',updateUser);
 
 export default userRouters;

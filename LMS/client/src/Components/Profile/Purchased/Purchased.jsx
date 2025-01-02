@@ -57,7 +57,7 @@ const Purchased = () => {
         <ul>
           {courses.map((course) => (
             <li key={course.courseId} className="p-4 border-b border-gray-200">
-              <h3 className="font-bold text-xl">{course.nameCourse}</h3>
+              <h3 className="font-bold text-3xl">{course.nameCourse}</h3>
               <p className="text-gray-700 ">{course.introduction}</p>
               <p className="text-gray-500">Category: {course.category}</p>
               <p className="text-gray-500">Level: {course.level}</p>

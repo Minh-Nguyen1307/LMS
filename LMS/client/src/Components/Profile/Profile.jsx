@@ -63,12 +63,12 @@ const Profile = () => {
     fetchPurchasedCourses();
   }, [userId, currentPage]);
 
-  // Navigate to course detail page
+
   const handleLearnNow = (courseId) => {
     navigate(`/course/${courseId}`);
   };
 
-  // Pagination for purchased courses
+
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   if (loading) {
@@ -124,7 +124,7 @@ const Profile = () => {
               {courses.map((course) => (
                 <li key={course.courseId} className="p-6 border-b border-gray-200 hover:bg-gray-50 transition-all">
                   <div className="flex justify-between items-center mb-4">
-                    <h3 className="font-bold text-xl">{course.nameCourse}</h3>
+                    <h3 className="font-bold text-2xl">{course.nameCourse}</h3>
                     <button
                       className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
                       onClick={() => handleLearnNow(course.courseId)}

@@ -104,7 +104,6 @@ export const getUserById = async (req, res, next) => {
       return res.status(404).json({ message: 'User not found' });
     }
 
-    // Return user details
     res.status(200).json({
       success: true,
       message: "User retrieved successfully",
@@ -120,4 +119,38 @@ export const getUserById = async (req, res, next) => {
     });
   } catch (error) {
     next(error);}  
+};
+
+export const updateUser = async (req, res, next) => {
+  try {
+    const userId = req.params.id; 
+    const { userName, avatar } = req.body;  
+
+    const user = await UserModels.findById(userId);  
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    if (userName) {
+      user.userName = userName;
+    }
+    if (avatar) {
+      user.avatar = avatar;
+    }
+
+    await user.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'User updated successfully',
+      user: {
+        userId: user._id,
+        userName: user.userName,
+        avatar: user.avatar,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
