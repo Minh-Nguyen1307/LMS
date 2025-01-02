@@ -48,8 +48,8 @@ const Purchased = () => {
 
   return (
     <div className="my-courses-page">
-      <h1>My Purchased Courses</h1>
-      <p>Total Courses Purchased: {totalCourses}</p>
+      <h1 className="p-6 text-4xl font-bold">My Purchased Courses</h1>
+      <p className="text-xl p-6">Total Courses: {totalCourses}</p>
 
       {courses.length === 0 ? (
         <p>You haven't purchased any courses yet.</p>
@@ -57,8 +57,8 @@ const Purchased = () => {
         <ul>
           {courses.map((course) => (
             <li key={course.courseId} className="p-4 border-b border-gray-200">
-              <h3 className="font-bold">{course.nameCourse}</h3>
-              <p className="text-gray-700">{course.introduction}</p>
+              <h3 className="font-bold text-xl">{course.nameCourse}</h3>
+              <p className="text-gray-700 ">{course.introduction}</p>
               <p className="text-gray-500">Category: {course.category}</p>
               <p className="text-gray-500">Level: {course.level}</p>
 

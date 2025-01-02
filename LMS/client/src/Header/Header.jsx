@@ -87,11 +87,8 @@ export default function Header() {
     e.preventDefault();
     if (searchTerm.trim()) {
       try {
-        const response = await axios.get(`${import.meta.env.VITE_API_BASE_URL}/users/searchCoursesByName`, {
-          params: { search: searchTerm, page: 1, limit: 10 },
-        });
-        setSearchResults(response.data.courses);
-        navigate(`/courses?search=${encodeURIComponent(searchTerm)}`);
+        const basePath = isLoggedIn ? `/${userId}/courses` : `/courses`;
+        navigate(`${basePath}?search=${encodeURIComponent(searchTerm)}`);
       } catch (error) {
         console.error("Error fetching search results", error);
       }

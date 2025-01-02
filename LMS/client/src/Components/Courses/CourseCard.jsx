@@ -42,7 +42,8 @@ const CourseCard = ({course}) => {
         `${import.meta.env.VITE_API_BASE_URL}/users/addToCart/${userId}`,
         { courseId }
       );
-      setLoading(false); 
+      setLoading(false);
+      window.location.reload();
       return response.data;
     } catch (error) {
       setLoading(false); 
@@ -55,6 +56,7 @@ const CourseCard = ({course}) => {
   const handleAddToCart = async () => {
     if (!isAuthenticated()) {
       alert("Please sign in to add items to your cart.");
+      
       navigate("/signin");
       return;
     }
@@ -128,8 +130,8 @@ const CourseCard = ({course}) => {
         
         <div className="mt-3 flex gap-4">
          
-          <Link to={`/courses/${course._id}`} className="w-3/4">
-            <button className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-900 transition-colors duration-200">
+          <Link to={`/${userId}/cart`} className="w-3/4">
+            <button onClick={handleAddToCart} className="w-full bg-green-700 text-white py-2 rounded-lg hover:bg-green-900 transition-colors duration-200">
               Enroll Now
             </button>
           </Link>

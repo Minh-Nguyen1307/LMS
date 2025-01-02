@@ -54,7 +54,7 @@ export default function TopCourses() {
         See all
       </Link>
 
-      <div className='mx-10 my-5'>
+      <div className='mx-20 my-10'>
         
         <CoursesList courses={topCourses} />
       </div>

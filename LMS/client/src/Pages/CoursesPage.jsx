@@ -1,15 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import axios from "axios";
-
 import { useLocation, Link, useParams } from "react-router-dom";
 import Filter from "../Components/Courses/Filter";
 import CoursesList from "../Components/Courses/CoursesList";
 
 const CoursesPage = () => {
   const { userId } = useParams();
-  const [courses, setCourses] = useState([]);
   const location = useLocation();
-   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [courses, setCourses] = useState([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [filter, setFilter] = useState({
     category: "",
     level: "",
@@ -19,20 +18,25 @@ const CoursesPage = () => {
     currentPage: 1,
     totalPages: 1,
   });
-  const [searchTerm, setSearchTerm] = useState(new URLSearchParams(location.search).get('search') || '');
- useEffect(() => {
+  const [searchTerm, setSearchTerm] = useState(new URLSearchParams(location.search).get('search') || "");
+
+  // Check if the user is logged in
+  useEffect(() => {
     const authToken = localStorage.getItem("authToken");
     setIsLoggedIn(!!authToken);
   }, []);
+
+  // Fetch courses when filters, pagination, or search term change
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_BASE_URL}/users/getCourses`, {
             params: {
-              ...filter, 
+              ...filter,
               page: pagination.currentPage,
-              limit: 10, 
+              limit: 10,
+              search: searchTerm, // Include the search term in the request
             },
           }
         );
@@ -47,35 +51,48 @@ const CoursesPage = () => {
     };
 
     fetchCourses();
-  }, [filter, pagination.currentPage]);
+  }, [filter, pagination.currentPage, searchTerm]); // Depend on searchTerm for fetching courses
 
- 
-  const filteredCourses = courses.filter((course) => {
-    if (searchTerm && !course.title.toLowerCase().includes(searchTerm.toLowerCase())) return false;
-    if (filter.category && course.category !== filter.category) return false;
-    if (filter.level && course.level !== filter.level) return false;
-    return true;
-  });
+  // Handle dynamic updates to search term from URL query string
+  useEffect(() => {
+    const searchParam = new URLSearchParams(location.search).get('search') || '';
+    setSearchTerm(searchParam);
+  }, [location.search]);
 
-  const sortedCourses = filteredCourses.sort((a, b) => {
-    if (filter.sortBy === "price") {
-      return a.price - b.price;
-    } else if (filter.sortBy === "-price") {
-      return b.price - a.price;
-    } else if (filter.sortBy === "rating") {
-      return b.rating - a.rating; 
-    } else if (filter.sortBy === "numRatings") {
-      return b.numRatings - a.numRatings;
-    } else if (filter.sortBy === "discount") {
-      return b.discount - a.discount;
-    } else if (filter.sortBy === "new") {
-      return new Date(b.updatedAt) - new Date(a.updatedAt);
-    } else if (filter.sortBy === "enrollment") {
-      return b.enrollmentCount - a.enrollmentCount;
-    }
-    return 0;
-  });
+  // Filter and sort courses based on the current filters
+  const filteredCourses = useMemo(() => {
+    return courses.filter((course) => {
+      if (searchTerm && (!course.nameCourse || !course.nameCourse.toLowerCase().includes(searchTerm.toLowerCase()))) return false;
+      if (filter.category && course.category !== filter.category) return false;
+      if (filter.level && course.level !== filter.level) return false;
+      return true;
+    });
+  }, [courses, searchTerm, filter]);
 
+  const sortedCourses = useMemo(() => {
+    return filteredCourses.sort((a, b) => {
+      switch (filter.sortBy) {
+        case "price":
+          return a.price - b.price;
+        case "-price":
+          return b.price - a.price;
+        case "rating":
+          return b.rating - a.rating;
+        case "numRatings":
+          return b.numRatings - a.numRatings;
+        case "discount":
+          return b.discount - a.discount;
+        case "new":
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        case "enrollment":
+          return b.enrollmentCount - a.enrollmentCount;
+        default:
+          return 0;
+      }
+    });
+  }, [filteredCourses, filter.sortBy]);
+
+  // Handle filter change
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     setFilter((prevFilter) => ({
@@ -84,6 +101,7 @@ const CoursesPage = () => {
     }));
   };
 
+  // Reset filters to default values
   const resetFilter = () => {
     setFilter({
       category: "",
@@ -92,9 +110,9 @@ const CoursesPage = () => {
     });
   };
 
- 
+  // Handle pagination
   const handlePageChange = (newPage) => {
-    if (newPage < 1 || newPage > pagination.totalPages) return; 
+    if (newPage < 1 || newPage > pagination.totalPages) return;
     setPagination((prevPagination) => ({
       ...prevPagination,
       currentPage: newPage,
@@ -103,66 +121,57 @@ const CoursesPage = () => {
 
   return (
     <div className="mx-10">
-      <div>
+      {/* Page Header */}
       <div className="my-4">
-          <p className="text-4xl font-medium">All Courses</p>
-        </div>
-        <div>
-          <nav aria-label="breadcrumb" className="text-lg my-5">
-            <ol className="breadcrumb">
-              <li className="breadcrumb-item">
-              <Link to={isLoggedIn ? `/${userId}` : `/`}>Home</Link>
-              </li>
-              <li className="breadcrumb-item active" aria-current="page">
-                Courses
-              </li>
-            </ol>
-          </nav>
-        </div>
+        <p className="text-4xl font-medium">All Courses</p>
       </div>
+
+      {/* Breadcrumb Navigation */}
+      <div>
+        <nav aria-label="breadcrumb" className="text-lg my-5">
+          <ol className="breadcrumb">
+            <li className="breadcrumb-item">
+              <Link to={isLoggedIn ? `/${userId}` : `/`}>Home</Link>
+            </li>
+            <li className="breadcrumb-item active" aria-current="page">
+              Courses
+            </li>
+          </ol>
+        </nav>
+      </div>
+
       <div className="flex justify-around items-start">
+        {/* Filter Sidebar */}
         <div className="w-1/6 pr-5">
-         
-          <Filter
-            filter={filter}
-            handleFilterChange={handleFilterChange}
-            resetFilter={resetFilter}
-          />
+          <Filter filter={filter} handleFilterChange={handleFilterChange} resetFilter={resetFilter} />
         </div>
+
+        {/* Courses List */}
         <div className="w-5/6">
-          
-          <CoursesList  courses={sortedCourses} />
-          
-        
+          <CoursesList courses={sortedCourses} />
+
+          {/* Pagination Controls */}
           <div className="flex justify-center items-center space-x-4 my-6">
+            <button
+              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
+              onClick={() => handlePageChange(pagination.currentPage - 1)}
+              disabled={pagination.currentPage === 1}
+            >
+              Previous
+            </button>
 
-  <button
-    className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
-    onClick={() => handlePageChange(pagination.currentPage - 1)}
-    disabled={pagination.currentPage === 1}
-  >
-    Previous
-  </button>
+            <div className="text-lg">
+              <p>{pagination.currentPage}/{pagination.totalPages}</p>
+            </div>
 
-  
-  <div className="text-lg">
-    <p>{pagination.currentPage}/{pagination.totalPages}</p>
-  </div>
-
- 
- 
-
-  
-  <button
-    className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
-    onClick={() => handlePageChange(pagination.currentPage + 1)}
-    disabled={pagination.currentPage === pagination.totalPages}
-  >
-    Next
-  </button>
-</div>
-
-
+            <button
+              className="bg-gray-600 text-white py-2 px-4 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-500 disabled:opacity-50"
+              onClick={() => handlePageChange(pagination.currentPage + 1)}
+              disabled={pagination.currentPage === pagination.totalPages}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
     </div>
