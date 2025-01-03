@@ -1,5 +1,6 @@
 import CartModels from "../Models/cartModels.js";
 import CourseModels from "../Models/courseModels.js";
+import PurchasedCoursesModel from "../Models/PurchasedCoursesModel.js";
 import UserModels from "../Models/userModels.js";
 import dotenv from "dotenv";
 dotenv.config();
@@ -32,7 +33,12 @@ export const addToCart = async (req, res, next) => {
     if (!course) {
       return res.status(404).json({ message: "Course not found" });
     }
-
+    const purchasedCourses = await PurchasedCoursesModel.findOne({ userId });
+    if (purchasedCourses && purchasedCourses.courses.some(c => c.toString() === courseId)) {
+      return res
+        .status(400)
+        .json({ message: "You have already purchased this course." });
+    }
     
     const existingCartItem = cart.cartItems.find(
       (cartItem) => cartItem.courseId.toString() === course._id.toString()

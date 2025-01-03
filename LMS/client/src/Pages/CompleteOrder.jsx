@@ -31,8 +31,8 @@ const CompleteOrder = () => {
   }, [userId, orderId, payerID]);
 
   return (
-    <div className="complete-order-container">
-      <h2>Complete Order</h2>
+    <div className="complete-order-container text-center font-bold text-3xl text-green-900">
+      <h2 classname=''>Complete Order</h2>
       {loading && <p>Processing your payment...</p>}
       {paymentStatus && <p>{paymentStatus}</p>}
       {errorMessage && <p className="error">{errorMessage}</p>}

@@ -62,11 +62,12 @@ const CourseCard = ({course}) => {
     }
 
     try {
-      
       const response = await addToCart(userId, course._id);
       alert(response.message || "Course added to your cart successfully!");
     } catch (error) {
-      if (error?.message === "Course is already in your cart") {
+      if (error?.message === "You have already purchased this course.") {
+        alert("This course is already purchased.");
+      } else if (error?.message === "The course is already in the cart") {
         alert("This course is already in your cart.");
       } else {
         alert(error?.message || "Failed to add course to cart.");
